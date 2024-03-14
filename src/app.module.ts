@@ -6,7 +6,7 @@ import { User } from './model/user.entity';
 import { AppController } from './app.controller';
 import { UserService } from './model/user.service';
 import * as dotenv from 'dotenv';
-import { databaseConfig } from './config/database-config.service';
+import { dynamoDBClient } from './config/dynamoDBClient';
 import { APP_FILTER } from '@nestjs/core';
 import { LoggingService } from './common/middleware/logger.middleware';
 import { LocalizationModule } from './localization/localization.module';
@@ -19,12 +19,6 @@ dotenv.config();
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        return databaseConfig;
-      },
-    }),
-    TypeOrmModule.forFeature([User]),
     MessageModule,
     ChatbotModule,
     SwiftchatModule,

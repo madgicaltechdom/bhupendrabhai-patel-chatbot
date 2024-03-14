@@ -28,4 +28,6 @@ export abstract class MessageService {
 
   abstract sendWelcomeMessage(from: string, language: string);
   abstract sendLanguageChangedMessage(from: string, language: string);
+  abstract askUserName(from: string, language: string);
+  abstract askUserAdress(from: string, language: string);
 }

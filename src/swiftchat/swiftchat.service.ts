@@ -50,4 +50,35 @@ export class SwiftchatMessageService extends MessageService {
     );
     return response;
   }
+
+  async askUserName(from: string, language: string) {
+    const localisedStrings = LocalizationService.getLocalisedString(language);
+    const requestData = this.prepareRequestData(
+      from,
+      localisedStrings.ask_user_name,
+    );
+
+    const response = await this.sendMessage(
+      this.baseUrl,
+      requestData,
+      this.apiKey,
+    );
+    return response;
+  }
+
+
+  async askUserAdress(from: string, language: string) {
+    const localisedStrings = LocalizationService.getLocalisedString(language);
+    const requestData = this.prepareRequestData(
+      from,
+      localisedStrings.ask_user_address,
+    );
+
+    const response = await this.sendMessage(
+      this.baseUrl,
+      requestData,
+      this.apiKey,
+    );
+    return response;
+  }
 }
