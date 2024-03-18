@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const { USERS_TABLE } = process.env;
-console.log(USERS_TABLE);
 
 @Injectable()
 export class UserService {
@@ -39,11 +38,13 @@ export class UserService {
           Item: {
             id: uuidv4(),
             mobileNumber: mobileNumber,
-            language: "English",
+            language: "english",
             Botid:botID,
             chatHistory: [{ question, answer }],
             button_response:null,
-            user_context: null
+            user_context: null,
+            address: null,
+            userName: null,
 
           },
         };
@@ -74,11 +75,13 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-        language:"English",
+        language:"english",
         Botid:botID,
         chatHistory: [],
         button_response:null,
-        user_context: null
+        user_context: null,
+        address: null,
+        userName: null,
 
         },
       };
@@ -97,18 +100,18 @@ export class UserService {
     try {
       const result = await dynamoDBClient().query(params).promise();
       let user = result.Items && result.Items.length > 0 ? result.Items[0] : null;
-
-      console.log(user);
       
       if (!user || user?.language === "") {
         user = {
           ...user,
           id: uuidv4(),
           mobileNumber,
-        language:"English",
+        language:"english",
         Botid:botID,
         chatHistory: [],
-        button_response:null
+        button_response:null,
+        address: null,
+        userName: null,
         
         };
       
@@ -127,13 +130,7 @@ export class UserService {
     }
   }
 
-  // async saveUser(user: User): Promise<User | any> {
-  //   const newUser = {
-  //     TableName: USERS_TABLE,
-  //     Item: user,
-  //   };
-  //   return await dynamoDBClient().put(newUser).promise();
-  // }
+
 
   async clearUserChatHistory(mobileNumber: string, botID: string): Promise<void> {
     const user = await this.findUserByMobileNumber(mobileNumber, botID);
@@ -150,11 +147,13 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-        language:"English",
+        language:"english",
         Botid:botID,
         chatHistory: [],
         button_response:null,
-        user_context: null
+        user_context: null,
+        address: null,
+        userName: null,
         },
       };
       await dynamoDBClient().put(newUser).promise();
@@ -178,11 +177,107 @@ async updateUserContext(mobileNumber: string, botID: string, user_context: strin
       Item: {
         id: uuidv4(),
         mobileNumber,
-        language: "English",
+        language: "english",
         Botid: botID,
         chatHistory: [],
         button_response: null,
-        user_context: user_context
+        user_context: user_context,
+        address: null,
+        userName: null,
+      },
+    };
+    await dynamoDBClient().put(newUser).promise();
+    return newUser;
+  }
+}
+
+
+
+async updateUserAddress(mobileNumber: string, botID: string, address: string): Promise<any> {
+  const user = await this.findUserByMobileNumber(mobileNumber, botID);
+  
+  if (user) {
+    user.address = address;
+    const updateParams = {
+      TableName: USERS_TABLE,
+      Item: user,
+    };
+    await dynamoDBClient().put(updateParams).promise();
+    return user;
+  } else {
+    const newUser = {
+      TableName: USERS_TABLE,
+      Item: {
+        id: uuidv4(),
+        mobileNumber,
+        language: "english",
+        Botid: botID,
+        chatHistory: [],
+        button_response: null,
+        user_context: null,
+        address: address,
+        userName: null,
+      },
+    };
+    await dynamoDBClient().put(newUser).promise();
+    return newUser;
+  }
+}
+
+async updateUserName(mobileNumber: string, botID: string, name: string): Promise<any> {
+  const user = await this.findUserByMobileNumber(mobileNumber, botID);
+  
+  if (user) {
+    user.userName = name;
+    const updateParams = {
+      TableName: USERS_TABLE,
+      Item: user,
+    };
+    await dynamoDBClient().put(updateParams).promise();
+    return user;
+  } else {
+    const newUser = {
+      TableName: USERS_TABLE,
+      Item: {
+        id: uuidv4(),
+        mobileNumber,
+        language: "english",
+        Botid: botID,
+        chatHistory: [],
+        button_response: null,
+        user_context: null,
+        address: null,
+        userName: name,
+      },
+    };
+    await dynamoDBClient().put(newUser).promise();
+    return newUser;
+  }
+}
+async updateButtonResponse(mobileNumber: string, botID: string, button_response: string): Promise<any> {
+  const user = await this.findUserByMobileNumber(mobileNumber, botID);
+  
+  if (user) {
+    user.button_response = button_response;
+    const updateParams = {
+      TableName: USERS_TABLE,
+      Item: user,
+    };
+    await dynamoDBClient().put(updateParams).promise();
+    return user;
+  } else {
+    const newUser = {
+      TableName: USERS_TABLE,
+      Item: {
+        id: uuidv4(),
+        mobileNumber,
+        language: "english",
+        Botid: botID,
+        chatHistory: [],
+        button_response: button_response,
+        user_context: null,
+        address: null,
+        userName: null,
       },
     };
     await dynamoDBClient().put(newUser).promise();

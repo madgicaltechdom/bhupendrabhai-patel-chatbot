@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { localisedStrings as english } from 'src/i18n/en/localised-strings';
 import { localisedStrings as hindi } from 'src/i18n/hn/localised-strings';
+import { localisedStrings as gujarati } from 'src/i18n/gu/localised-strings';
 
 @Injectable()
 export class LocalizationService {
@@ -8,8 +9,12 @@ export class LocalizationService {
     console.log(language);
     if (language == 'hindi') {
       return hindi;
-    } else {
+    } 
+    else if (language === 'english'){
       return english;
+    }
+    else if (language === 'gujarati'){
+      return gujarati;
     }
   };
 }
