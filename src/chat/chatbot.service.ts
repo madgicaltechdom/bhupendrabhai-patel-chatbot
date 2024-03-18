@@ -99,7 +99,6 @@ export class ChatbotService {
       await this.userService.setUserPreferredLanguage(from,button_response.body,this.botId);
       await this.askQuestionButton(from);
       await this.userService.updateUserContext(from,this.botId,'Ask a new question');
-
     }
     return 'ok';
   }
