@@ -30,6 +30,7 @@ export class ChatbotService {
   }
 
 
+
   public async processMessage(body: any): Promise<any> {
     const { from, text,button_response, persistent_menu_response } = body;
     console.log('button response is: ',button_response);
@@ -38,9 +39,11 @@ export class ChatbotService {
     
     if (!(button_response) && !(persistent_menu_response) && body.text.body === 'hi'){
       console.log("Yes")
+      console.log(userData)
       await this.message.askUserName(from,userData.language)
       await this.userService.updateUserContext(from,this.botId,'greeting');
     }
+
 
     else if (persistent_menu_response){
       console.log('persistent menu is: ',persistent_menu_response);
@@ -79,7 +82,7 @@ export class ChatbotService {
       }
     }
     else if (userData.user_context === 'greeting' && !(button_response) && !(persistent_menu_response)){
-      await this.createButtons(from);
+      await this.createButtons(from, userData.language);
       await this.userService.updateUserName(from,this.botId,body.text.body)
     }
 
@@ -105,7 +108,23 @@ export class ChatbotService {
   }
 
 
-  private async createButtons(from: string): Promise<void> {
+  private async createButtons(from: string, language: string): Promise<void> {
+    let localisedStrings;
+    switch (language) {
+        case 'english':
+            localisedStrings = english;
+            break;
+        case 'hindi':
+            localisedStrings = hindi;
+            break;
+        case 'gujarati':
+            localisedStrings = gujarati;
+            break;
+        default:
+            // Default to English if language is not recognized
+            localisedStrings = english;
+            break;
+    }
     const url = `${this.apiUrl}/${this.botId}/messages`;
     const messageData = {
       to: from,
@@ -117,172 +136,7 @@ export class ChatbotService {
             body: 'Select your district and know the progress of your district'
           },
         },
-        buttons: [
-          {
-            type: 'solid',
-            body: 'Ahmedabad',
-            reply: 'Ahmedabad',
-          },
-          {
-            type: 'solid',
-            body: 'Amreli',
-            reply: 'Amreli',
-          },
-          {
-            type: 'solid',
-            body: 'Anand',
-            reply: 'Anand',
-          },
-          {
-            type: 'solid',
-            body: 'Aravalli',
-            reply: 'Aravalli',
-          },
-          {
-            type: 'solid',
-            body: 'Banaskantha',
-            reply: 'Banaskantha',
-          },
-          {
-            type: 'solid',
-            body: 'Bharuch',
-            reply: 'Bharuch',
-          },
-          {
-            type: 'solid',
-            body: 'Bhavnagar',
-            reply: 'Bhavnagar',
-          },
-          {
-            type: 'solid',
-            body: 'Botad',
-            reply: 'Botad',
-          },
-          {
-            type: 'solid',
-            body: 'Chhota Udaipur',
-            reply: 'Chhota Udaipur',
-          },
-          {
-            type: 'solid',
-            body: 'Dahod',
-            reply: 'Dahod',
-          },
-          {
-            type: 'solid',
-            body: 'Dang',
-            reply: 'Dang',
-          },
-          {
-            type: 'solid',
-            body: 'Devbhoomi Dwarka',
-            reply: 'Devbhoomi Dwarka',
-          },
-          {
-            type: 'solid',
-            body: 'Gandhinagar',
-            reply: 'Gandhinagar',
-          },
-          {
-            type: 'solid',
-            body: 'Gir Somnath',
-            reply: 'Gir Somnath',
-          },
-          {
-            type: 'solid',
-            body: 'Jamnagar',
-            reply: 'Jamnagar',
-          },
-          {
-            type: 'solid',
-            body: 'Junagadh',
-            reply: 'Junagadh',
-          },
-          {
-            type: 'solid',
-            body: 'Kheda',
-            reply: 'Kheda',
-          },
-          {
-            type: 'solid',
-            body: 'Kutch',
-            reply: 'Kutch',
-          },
-          {
-            type: 'solid',
-            body: 'Mahisagar',
-            reply: 'Mahisagar',
-          },
-          {
-            type: 'solid',
-            body: 'Mehsana',
-            reply: 'Mehsana',
-          },
-          {
-            type: 'solid',
-            body: 'Morbi',
-            reply: 'Morbi',
-          },
-          {
-            type: 'solid',
-            body: 'Narmada',
-            reply: 'Narmada',
-          },
-          {
-            type: 'solid',
-            body: 'Navsari',
-            reply: 'Navsari',
-          },
-          {
-            type: 'solid',
-            body: 'Panchmahal',
-            reply: 'Panchmahal',
-          },
-          {
-            type: 'solid',
-            body: 'Patan',
-            reply: 'Patan',
-          },
-          {
-            type: 'solid',
-            body: 'Porbandar',
-            reply: 'Porbandar',
-          },
-          {
-            type: 'solid',
-            body: 'Rajkot',
-            reply: 'Rajkot',
-          },
-          {
-            type: 'solid',
-            body: 'Sabarkantha',
-            reply: 'Sabarkantha',
-          },
-          {
-            type: 'solid',
-            body: 'Surat',
-            reply: 'Surat',
-          },
-          {
-            type: 'solid',
-            body: 'Surendranagar',
-            reply: 'Surendranagar',
-          },
-          {
-            type: 'solid',
-            body: 'Tapi',
-            reply: 'Tapi',
-          },
-          {
-            type: 'solid',
-            body: 'Vadodara',
-            reply: 'Vadodara',
-          },
-          {
-            type: 'solid',
-            body: 'Valsad',
-            reply: 'Valsad',
-          }        ],
+        buttons: localisedStrings.district_buttons,
         allow_custom_response: false,
       },
     };
