@@ -31,7 +31,6 @@ export class ChatbotService {
 
   public async processMessage(body: any): Promise<any> {
     const { from, text, button_response, persistent_menu_response } = body;
-    console.log('button response is: ', button_response);
 
     const userData = await this.userService.findUserByMobileNumber(
       from,
@@ -86,7 +85,7 @@ export class ChatbotService {
         button_response.body,
         this.botId,
       );
-      await this.message.askQuestionButton(from, userData.language);
+      await this.message.askQuestionButton(from, button_response.body);
       await this.userService.updateButtonResponse(
         from,
         this.botId,
@@ -100,14 +99,14 @@ export class ChatbotService {
       await this.userService.updateUserContext(
         from,
         this.botId,
-        button_response.body,
+        english.context[0],
       );
     } else if (
       userData.user_context === english.context[0] &&
       !button_response
     ) {
+      console.log("Daily limit is: ",userData.question_limit);
       if (userData.question_limit <= 10) {
-        console.log(body.text.body);
         if (text.body.toLowerCase() === english.demo_question.toLowerCase()) {
           await this.message.sendMessageForCorrectAns(from, userData.language);
           await this.message.askQuestionButton(from, userData.language);
@@ -125,7 +124,9 @@ export class ChatbotService {
           userData.question_limit,
           userData.lastQuestionDate,
         );
-      } else {
+      } 
+      else {
+        console.log("Daily limit exhausted: ")
         await this.message.sendMessageForDailyLimit(from, userData.language);
       }
     } else if (
@@ -166,7 +167,7 @@ export class ChatbotService {
         button_response.body,
         this.botId,
       );
-      await this.message.askQuestionButton(from, userData.language);
+      await this.message.askQuestionButton(from, button_response.body);
       await this.userService.updateUserContext(
         from,
         this.botId,

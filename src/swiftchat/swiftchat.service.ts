@@ -71,6 +71,7 @@ export class SwiftchatMessageService extends MessageService {
   }
 
   async sendMessageForDailyLimit(from: string, language: string) {
+    console.log("This function has been called: ")
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
