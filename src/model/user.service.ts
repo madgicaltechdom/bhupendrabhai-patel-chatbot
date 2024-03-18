@@ -61,7 +61,7 @@ export class UserService {
     mobileNumber: string,
     language: string,
     botID: string,
-  ): Promise<void> {
+  ): Promise<any> {
     const user = await this.findUserByMobileNumber(mobileNumber, botID);
     if (user) {
       user.language = language;
