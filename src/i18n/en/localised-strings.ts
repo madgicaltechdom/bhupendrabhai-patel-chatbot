@@ -41,10 +41,6 @@ export const localisedStrings = {
     'Vadodara',
     'Valsad',
   ],
-  demo_question: 'Who is bhupendrabhai?',
-  demo_asnwer: 'Bhupendra Patel, often referred to as Bhupendrabhai Patel, is an Indian politician and a member of the Bharatiya Janata Party (BJP). As of my last update in January 2022, he had served as the Chief Minister of Gujarat, India. He assumed office in September 2021, succeeding Vijay Rupani. Prior to becoming the Chief Minister, Patel held various positions within the BJP and was a member of the Gujarat Legislative Assembly. For the most recent information on his role and activities, I recommend checking the latest news sources.',
-  no_answer_message: 'Sorry, I am unable to to answer this query at the moment. Please ask a different question.',
-  daily_limit: 'Thanks for having great conversation. Your daily limit of asking question is exhausted. Please visit again tomorrow.',
   district_buttons: [
     {
       type: 'solid',
@@ -210,6 +206,23 @@ export const localisedStrings = {
       type: 'solid',
       body: 'Valsad',
       reply: 'Valsad',
-    }        ]  
+    },
+  ],
 
- };
+  demo_question: 'Who is bhupendrabhai?',
+  demo_asnwer: 'Bhupendra Patel, often referred to as Bhupendrabhai Patel, is an Indian politician and a member of the Bharatiya Janata Party (BJP). As of my last update in January 2022, he had served as the Chief Minister of Gujarat, India. He assumed office in September 2021, succeeding Vijay Rupani. Prior to becoming the Chief Minister, Patel held various positions within the BJP and was a member of the Gujarat Legislative Assembly. For the most recent information on his role and activities, I recommend checking the latest news sources.',
+  no_answer_message: 'Sorry, I am unable to to answer this query at the moment. Please ask a different question.',
+  daily_limit: 'Thanks for having great conversation. Your daily limit of asking question is exhausted. Please visit again tomorrow.',
+  context: [
+    'Ask a new question',
+    'persistent menu',
+    'address',
+    'greeting'
+  ],
+  languages: ['english', 'hindi','gujarati'],
+  persistent_menu: ['Change Language'],
+  askQuestionBody: 'Ask questions to Chief Minister Bhupendrabhai to learn about the progress of your district.',
+  askQuestionButtonReply: 'Ask a new question',
+  languageBody: 'Choose Language',
+  createButtonBody: 'Choose your district and discover its progress.'
+};
