@@ -50,7 +50,7 @@ export class ChatbotService {
     else if (button_response && userData.user_context === 'persistent menu' && userData.button_response === 'Change Language'){
       console.log("1");
       await this.userService.setUserPreferredLanguage(from,button_response.body,this.botId);
-      await this.askQuestionButton(from);
+      await this.askQuestionButton(from,userData.language);
       await this.userService.updateButtonResponse(from,this.botId,'ask new qtn');
     }
     else if (button_response && userData.user_context === 'persistent menu' && userData.button_response === 'ask new qtn'){
@@ -84,7 +84,7 @@ export class ChatbotService {
     else if (button_response && (button_response.body === 'hindi' || button_response.body === 'english' || button_response.body === 'gujarati')){
       await this.message.sendWelcomeMessage(from,button_response.body);
       await this.userService.setUserPreferredLanguage(from,button_response.body,this.botId);
-      await this.askQuestionButton(from);
+      await this.askQuestionButton(from,userData.language);
     }
     return 'ok';
   }
@@ -330,7 +330,7 @@ export class ChatbotService {
     }
 }
 
-private async askQuestionButton(from: string): Promise<any> {
+private async askQuestionButton(from: string, language:string): Promise<any> {
   const url = `${this.apiUrl}/${this.botId}/messages`;
   const messageData = {
   to: from,
@@ -339,13 +339,13 @@ private async askQuestionButton(from: string): Promise<any> {
       body: {
       type: 'text',
       text: {
-          body: 'Ask question to your CM Bhupendrabhai and know the progress of your district'
+          body: this.getQuestionButtonText(language),
       },
       },
       buttons: [
       {
           type: 'solid',
-          body: 'Ask a new question',
+          body: this.getAskQuestionButtonText(language),
           reply: 'Ask a new question',
       }
       ],
@@ -365,6 +365,31 @@ private async askQuestionButton(from: string): Promise<any> {
   console.error('errors:', error);
   }
 }
-
+private getQuestionButtonText(language:string):string{
+  switch(language.toLocaleLowerCase()){
+    case 'hindi':
+      return 'अपने CM भूपेंद्रभाई से सवाल पूछें और अपने जिले की प्रगति जानें';
+    case 'english':
+      return 'Ask question to your CM Bhupendrabhai and know the progress of your district';
+    case 'gujarati':
+      return 'તમારા CM ભૂપેન્દ્રભાઈને પ્રશ્ન કરો અને તમારા જિલ્લાનો પ્રગતિ જાણો';
+    default:
+      return 'Ask question to your CM Bhupendrabhai and know the progress of your district';
+  }
+  
 }
+private getAskQuestionButtonText(language: string): string {
+  switch (language.toLowerCase()) {
+    case 'hindi':
+      return 'नया सवाल पूछें';
+    case 'english':
+      return 'Ask a new question';
+    case 'gujarati':
+      return 'નવો પ્રશ્ન પૂછો';
+    default:
+      return 'Ask a new question';
+  }
+}
+}
+
 export default ChatbotService;
