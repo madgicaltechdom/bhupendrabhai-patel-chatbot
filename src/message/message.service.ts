@@ -33,4 +33,7 @@ export abstract class MessageService {
   abstract sendMessageForCorrectAns(from: string, language: string);
   abstract sendMessageForIncorrectAns(from: string, language: string);
   abstract sendMessageForDailyLimit(from:string, language: string);
+  abstract createButtons(from: string, language: string);
+  abstract languageButtons(from: string,language:string);
+  abstract askQuestionButton(from: string,language:string);
 }

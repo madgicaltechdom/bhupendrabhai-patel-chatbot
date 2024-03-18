@@ -41,8 +41,188 @@ export const localisedStrings = {
     'Vadodara',
     'Valsad',
   ],
+  district_buttons: [
+    {
+      type: 'solid',
+      body: 'Ahmedabad',
+      reply: 'Ahmedabad',
+    },
+    {
+      type: 'solid',
+      body: 'Amreli',
+      reply: 'Amreli',
+    },
+    {
+      type: 'solid',
+      body: 'Anand',
+      reply: 'Anand',
+    },
+    {
+      type: 'solid',
+      body: 'Aravalli',
+      reply: 'Aravalli',
+    },
+    {
+      type: 'solid',
+      body: 'Banaskantha',
+      reply: 'Banaskantha',
+    },
+    {
+      type: 'solid',
+      body: 'Bharuch',
+      reply: 'Bharuch',
+    },
+    {
+      type: 'solid',
+      body: 'Bhavnagar',
+      reply: 'Bhavnagar',
+    },
+    {
+      type: 'solid',
+      body: 'Botad',
+      reply: 'Botad',
+    },
+    {
+      type: 'solid',
+      body: 'Chhota Udaipur',
+      reply: 'Chhota Udaipur',
+    },
+    {
+      type: 'solid',
+      body: 'Dahod',
+      reply: 'Dahod',
+    },
+    {
+      type: 'solid',
+      body: 'Dang',
+      reply: 'Dang',
+    },
+    {
+      type: 'solid',
+      body: 'Devbhoomi Dwarka',
+      reply: 'Devbhoomi Dwarka',
+    },
+    {
+      type: 'solid',
+      body: 'Gandhinagar',
+      reply: 'Gandhinagar',
+    },
+    {
+      type: 'solid',
+      body: 'Gir Somnath',
+      reply: 'Gir Somnath',
+    },
+    {
+      type: 'solid',
+      body: 'Jamnagar',
+      reply: 'Jamnagar',
+    },
+    {
+      type: 'solid',
+      body: 'Junagadh',
+      reply: 'Junagadh',
+    },
+    {
+      type: 'solid',
+      body: 'Kheda',
+      reply: 'Kheda',
+    },
+    {
+      type: 'solid',
+      body: 'Kutch',
+      reply: 'Kutch',
+    },
+    {
+      type: 'solid',
+      body: 'Mahisagar',
+      reply: 'Mahisagar',
+    },
+    {
+      type: 'solid',
+      body: 'Mehsana',
+      reply: 'Mehsana',
+    },
+    {
+      type: 'solid',
+      body: 'Morbi',
+      reply: 'Morbi',
+    },
+    {
+      type: 'solid',
+      body: 'Narmada',
+      reply: 'Narmada',
+    },
+    {
+      type: 'solid',
+      body: 'Navsari',
+      reply: 'Navsari',
+    },
+    {
+      type: 'solid',
+      body: 'Panchmahal',
+      reply: 'Panchmahal',
+    },
+    {
+      type: 'solid',
+      body: 'Patan',
+      reply: 'Patan',
+    },
+    {
+      type: 'solid',
+      body: 'Porbandar',
+      reply: 'Porbandar',
+    },
+    {
+      type: 'solid',
+      body: 'Rajkot',
+      reply: 'Rajkot',
+    },
+    {
+      type: 'solid',
+      body: 'Sabarkantha',
+      reply: 'Sabarkantha',
+    },
+    {
+      type: 'solid',
+      body: 'Surat',
+      reply: 'Surat',
+    },
+    {
+      type: 'solid',
+      body: 'Surendranagar',
+      reply: 'Surendranagar',
+    },
+    {
+      type: 'solid',
+      body: 'Tapi',
+      reply: 'Tapi',
+    },
+    {
+      type: 'solid',
+      body: 'Vadodara',
+      reply: 'Vadodara',
+    },
+    {
+      type: 'solid',
+      body: 'Valsad',
+      reply: 'Valsad',
+    },
+  ],
+
   demo_question: 'Who is bhupendrabhai?',
   demo_asnwer: 'Bhupendra Patel, often referred to as Bhupendrabhai Patel, is an Indian politician and a member of the Bharatiya Janata Party (BJP). As of my last update in January 2022, he had served as the Chief Minister of Gujarat, India. He assumed office in September 2021, succeeding Vijay Rupani. Prior to becoming the Chief Minister, Patel held various positions within the BJP and was a member of the Gujarat Legislative Assembly. For the most recent information on his role and activities, I recommend checking the latest news sources.',
   no_answer_message: 'Sorry, I am unable to to answer this query at the moment. Please ask a different question.',
   daily_limit: 'Thanks for having great conversation. Your daily limit of asking question is exhausted. Please visit again tomorrow.',
- };
+  context: [
+    'Ask a new question',
+    'persistent menu',
+    'address',
+    'greeting'
+  ],
+  languages: ['english', 'hindi','gujarati'],
+  persistent_menu: ['Change Language'],
+  askQuestionBody: 'Ask questions to Chief Minister Bhupendrabhai to learn about the progress of your district.',
+  askQuestionButtonReply: 'Ask a new question',
+  languageBody: 'Choose Language',
+  createButtonBody: 'Choose your district and discover its progress.'
+};
