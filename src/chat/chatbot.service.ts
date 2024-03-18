@@ -5,6 +5,7 @@ import { UserService } from 'src/model/user.service';
 import { localisedStrings as english } from 'src/i18n/en/localised-strings';
 import { localisedStrings as hindi } from 'src/i18n/hn/localised-strings';
 import { localisedStrings as gujarati } from 'src/i18n/gu/localised-strings';
+import { LocalizationService } from 'src/localization/localization.service';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -36,10 +37,10 @@ export class ChatbotService {
     console.log('button response is: ',button_response);
 
     const userData = await this.userService.findUserByMobileNumber(from,this.botId);
+    const localisedStrings = LocalizationService.getLocalisedString(userData.language);
     
     if (!(button_response) && !(persistent_menu_response) && body.text.body === 'hi'){
       console.log("Yes")
-      console.log(userData)
       await this.message.askUserName(from,userData.language)
       await this.userService.updateUserContext(from,this.botId,'greeting');
     }
@@ -67,7 +68,7 @@ export class ChatbotService {
       console.log("Asking question")
 
       if (userData.question_limit <=10){
-        console.log(text.body);
+        console.log(body.text.body);
         if (text.body.toLowerCase() === english.demo_question.toLowerCase()){
           await this.message.sendMessageForCorrectAns(from,userData.language);
           await this.askQuestionButton(from);
@@ -86,7 +87,7 @@ export class ChatbotService {
       await this.userService.updateUserName(from,this.botId,body.text.body)
     }
 
-    else if (button_response && (english.district_list.includes(button_response.body)) &&(body.text === null || body.text === undefined)){
+    else if (button_response && (localisedStrings.district_list.includes(button_response.body)) &&(body.text === null || body.text === undefined)){
       await this.message.askUserAdress(from,userData.language);
       await this.userService.updateUserContext(from,this.botId,'address');
     }
@@ -124,6 +125,7 @@ export class ChatbotService {
             localisedStrings = english;
             break;
     }
+    console.log(localisedStrings);
     const url = `${this.apiUrl}/${this.botId}/messages`;
     const messageData = {
       to: from,
