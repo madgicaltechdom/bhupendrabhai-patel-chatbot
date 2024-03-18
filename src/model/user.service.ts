@@ -13,7 +13,7 @@ export class UserService {
     language: string,
     botID: string,
     question: string,
-    answer: string,
+    answer: string
   ): Promise< any> {
     try {
       const existingUser = await this.findUserByMobileNumber(
@@ -46,6 +46,7 @@ export class UserService {
             address: null,
             userName: null,
             question_limit: 0,
+            lastQuestionDate: new Date().toISOString().split('T')[0],
 
           },
         };
@@ -83,7 +84,8 @@ export class UserService {
         user_context: null,
         address: null,
         userName: null,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
 
         },
       };
@@ -114,7 +116,8 @@ export class UserService {
         button_response:null,
         address: null,
         userName: null,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
         
         };
       
@@ -157,7 +160,8 @@ export class UserService {
         user_context: null,
         address: null,
         userName: null,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
         },
       };
       await dynamoDBClient().put(newUser).promise();
@@ -188,7 +192,8 @@ async updateUserContext(mobileNumber: string, botID: string, user_context: strin
         user_context: user_context,
         address: null,
         userName: null,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
       },
     };
     await dynamoDBClient().put(newUser).promise();
@@ -222,7 +227,8 @@ async updateUserAddress(mobileNumber: string, botID: string, address: string): P
         user_context: null,
         address: address,
         userName: null,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
       },
     };
     await dynamoDBClient().put(newUser).promise();
@@ -254,12 +260,43 @@ async updateUserName(mobileNumber: string, botID: string, name: string): Promise
         user_context: null,
         address: null,
         userName: name,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
       },
     };
     await dynamoDBClient().put(newUser).promise();
     return newUser;
   }
+}
+async updateUserQuestionLimit(mobileNumber: string, botID: string, questionLimit: number, lastQuestionDate:string): Promise<void> {
+  
+    const user = await this.findUserByMobileNumber(mobileNumber, botID);
+    if (user) {
+      user.question_limit = questionLimit;
+      user.lastQuestionDate=lastQuestionDate;
+      const updateUser = {
+        TableName: USERS_TABLE,
+        Item: user,
+      };
+      await dynamoDBClient().put(updateUser).promise();
+    } else {
+      const newUser = {
+        TableName: USERS_TABLE,
+        Item: {
+          id: uuidv4(),
+          mobileNumber,
+          language: "english",
+          Botid: botID,
+          chatHistory: [],
+          button_response: null,
+          user_context: null,
+          address: null,
+          userName: name,
+          question_limit: 0,
+          lastQuestionDate: new Date().toISOString().split('T')[0],
+        },
+      };
+    }
 }
 async updateButtonResponse(mobileNumber: string, botID: string, button_response: string): Promise<any> {
   const user = await this.findUserByMobileNumber(mobileNumber, botID);
@@ -285,7 +322,8 @@ async updateButtonResponse(mobileNumber: string, botID: string, button_response:
         user_context: null,
         address: null,
         userName: null,
-        question_limit: 0
+        question_limit: 0,
+        lastQuestionDate: new Date().toISOString().split('T')[0],
       },
     };
     await dynamoDBClient().put(newUser).promise();
