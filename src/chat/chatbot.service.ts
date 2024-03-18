@@ -36,7 +36,12 @@ export class ChatbotService {
     console.log('button response is: ',button_response);
 
     const userData = await this.userService.findUserByMobileNumber(from,this.botId);
-    
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (userData.lastQuestionDate !== currentDate) {
+      userData.questionLimit = 0;
+      userData.lastQuestionDate = currentDate;
+      await this.userService.updateUserQuestionLimit(from, this.botId, userData.questionLimit, userData.lastQuestionDate);
+    }
     if (!(button_response) && !(persistent_menu_response) && body.text.body === 'hi'){
       console.log("Yes")
       console.log(userData)
@@ -76,6 +81,8 @@ export class ChatbotService {
           await this.message.sendMessageForIncorrectAns(from,userData.language);
           await this.askQuestionButton(from);
         }
+        userData.question_limit+=1;
+        await this.userService.updateUserQuestionLimit(from, this.botId, userData.question_limit, userData.lastQuestionDate);
       }
       else{
         await this.message.sendMessageForDailyLimit(from,userData.language);
