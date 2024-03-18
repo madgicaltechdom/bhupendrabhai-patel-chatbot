@@ -29,6 +29,7 @@ export class ChatbotService {
     this.userService = userService;
   }
 
+
   public async processMessage(body: any): Promise<any> {
     const { from, text,button_response, persistent_menu_response } = body;
     console.log('button response is: ',button_response);
@@ -36,6 +37,7 @@ export class ChatbotService {
     const userData = await this.userService.findUserByMobileNumber(from,this.botId);
     
     if (!(button_response) && !(persistent_menu_response) && body.text.body === 'hi'){
+      console.log("Yes")
       await this.message.askUserName(from,userData.language)
       await this.userService.updateUserContext(from,this.botId,'greeting');
     }
@@ -57,12 +59,23 @@ export class ChatbotService {
       await this.userService.updateUserContext(from,this.botId,button_response.body);
       console.log("true");
     }
-    else if (userData.user_context === 'Ask a new question'){
-      if (text === 'who is bhupendrabhai?'){
-        await this.message.sendMessage('','','');
+
+    else if (userData.user_context === 'Ask a new question' && !(button_response)){
+      console.log("Asking question")
+
+      if (userData.question_limit <=10){
+        console.log(text.body);
+        if (text.body.toLowerCase() === english.demo_question.toLowerCase()){
+          await this.message.sendMessageForCorrectAns(from,userData.language);
+          await this.askQuestionButton(from);
+        }
+        else{
+          await this.message.sendMessageForIncorrectAns(from,userData.language);
+          await this.askQuestionButton(from);
+        }
       }
       else{
-        ''
+        await this.message.sendMessageForDailyLimit(from,userData.language);
       }
     }
     else if (userData.user_context === 'greeting' && !(button_response) && !(persistent_menu_response)){
@@ -85,6 +98,8 @@ export class ChatbotService {
       await this.message.sendWelcomeMessage(from,button_response.body);
       await this.userService.setUserPreferredLanguage(from,button_response.body,this.botId);
       await this.askQuestionButton(from);
+      await this.userService.updateUserContext(from,this.botId,'Ask a new question');
+
     }
     return 'ok';
   }
@@ -365,6 +380,5 @@ private async askQuestionButton(from: string): Promise<any> {
   console.error('errors:', error);
   }
 }
-
 }
 export default ChatbotService;

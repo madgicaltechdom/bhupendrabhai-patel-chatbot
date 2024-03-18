@@ -45,6 +45,7 @@ export class UserService {
             user_context: null,
             address: null,
             userName: null,
+            question_limit: 0,
 
           },
         };
@@ -82,6 +83,7 @@ export class UserService {
         user_context: null,
         address: null,
         userName: null,
+        question_limit: 0
 
         },
       };
@@ -112,6 +114,7 @@ export class UserService {
         button_response:null,
         address: null,
         userName: null,
+        question_limit: 0
         
         };
       
@@ -154,6 +157,7 @@ export class UserService {
         user_context: null,
         address: null,
         userName: null,
+        question_limit: 0
         },
       };
       await dynamoDBClient().put(newUser).promise();
@@ -184,6 +188,7 @@ async updateUserContext(mobileNumber: string, botID: string, user_context: strin
         user_context: user_context,
         address: null,
         userName: null,
+        question_limit: 0
       },
     };
     await dynamoDBClient().put(newUser).promise();
@@ -217,6 +222,7 @@ async updateUserAddress(mobileNumber: string, botID: string, address: string): P
         user_context: null,
         address: address,
         userName: null,
+        question_limit: 0
       },
     };
     await dynamoDBClient().put(newUser).promise();
@@ -248,6 +254,7 @@ async updateUserName(mobileNumber: string, botID: string, name: string): Promise
         user_context: null,
         address: null,
         userName: name,
+        question_limit: 0
       },
     };
     await dynamoDBClient().put(newUser).promise();
@@ -278,6 +285,7 @@ async updateButtonResponse(mobileNumber: string, botID: string, button_response:
         user_context: null,
         address: null,
         userName: null,
+        question_limit: 0
       },
     };
     await dynamoDBClient().put(newUser).promise();

@@ -30,4 +30,7 @@ export abstract class MessageService {
   abstract sendLanguageChangedMessage(from: string, language: string);
   abstract askUserName(from: string, language: string);
   abstract askUserAdress(from: string, language: string);
+  abstract sendMessageForCorrectAns(from: string, language: string);
+  abstract sendMessageForIncorrectAns(from: string, language: string);
+  abstract sendMessageForDailyLimit(from:string, language: string);
 }
