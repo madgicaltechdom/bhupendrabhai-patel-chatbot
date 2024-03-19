@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { LocalizationService } from 'src/localization/localization.service';
-import { MessageService } from 'src/message/message.service';
-import { localisedStrings as english } from 'src/i18n/en/localised-strings';
-import { localisedStrings as hindi } from 'src/i18n/hn/localised-strings';
-import { localisedStrings as gujarati } from 'src/i18n/gu/localised-strings';
+import { LocalizationService } from '../localization/localization.service';
+import { MessageService } from '../message/message.service';
+import { localisedStrings as english } from '../i18n/en/localised-strings';
+import { localisedStrings as hindi } from '../i18n/hn/localised-strings';
+import { localisedStrings as gujarati } from '../i18n/gu/localised-strings';
 import axios from 'axios';
 
 dotenv.config();

@@ -1,5 +1,5 @@
 import * as natural from 'natural';
-import { localisedStrings } from 'src/i18n/en/localised-strings';
+import { localisedStrings } from '../i18n/en/localised-strings';
 
 class IntentClassifier {
   private classifier: natural.BayesClassifier;

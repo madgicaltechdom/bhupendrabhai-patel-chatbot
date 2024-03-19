@@ -133,39 +133,6 @@ export class UserService {
     }
   }
 
-  async clearUserChatHistory(
-    mobileNumber: string,
-    botID: string,
-  ): Promise<void> {
-    const user = await this.findUserByMobileNumber(mobileNumber, botID);
-    if (user) {
-      user.chatHistory = [];
-      const clearChatHistory = {
-        TableName: USERS_TABLE,
-        Item: user,
-      };
-      await dynamoDBClient().put(clearChatHistory).promise();
-    } else {
-      const newUser = {
-        TableName: USERS_TABLE,
-        Item: {
-          id: uuidv4(),
-          mobileNumber,
-          language: 'english',
-          Botid: botID,
-          chatHistory: [],
-          button_response: null,
-          user_context: null,
-          address: null,
-          userName: null,
-          question_limit: 0,
-          lastQuestionDate: new Date().toISOString().split('T')[0],
-        },
-      };
-      await dynamoDBClient().put(newUser).promise();
-    }
-  }
-
   async updateUserContext(
     mobileNumber: string,
     botID: string,

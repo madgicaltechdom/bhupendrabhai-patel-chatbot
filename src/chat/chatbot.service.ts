@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import IntentClassifier from '../intent/intent.classifier';
-import { MessageService } from 'src/message/message.service';
-import { UserService } from 'src/model/user.service';
-import { localisedStrings as english } from 'src/i18n/en/localised-strings';
-import { localisedStrings as hindi } from 'src/i18n/hn/localised-strings';
-import { localisedStrings as gujarati } from 'src/i18n/gu/localised-strings';
-import { LocalizationService } from 'src/localization/localization.service';
+import { MessageService } from '../message/message.service';
+import { UserService } from '../model/user.service';
+import { localisedStrings as english } from '../i18n/en/localised-strings';
+import { localisedStrings as hindi } from '../i18n/hn/localised-strings';
+import { localisedStrings as gujarati } from '../i18n/gu/localised-strings';
+import { LocalizationService } from '../localization/localization.service';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -20,11 +20,9 @@ export class ChatbotService {
   private readonly apiKey = process.env.API_KEY;
 
   constructor(
-    intentClassifier: IntentClassifier,
     message: MessageService,
     userService: UserService,
   ) {
-    this.intentClassifier = intentClassifier;
     this.message = message;
     this.userService = userService;
   }
@@ -36,6 +34,7 @@ export class ChatbotService {
       from,
       this.botId,
     );
+    console.log(userData);
     const localisedStrings = LocalizationService.getLocalisedString(
       userData.language,
     );
