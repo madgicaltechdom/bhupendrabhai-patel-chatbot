@@ -377,5 +377,101 @@ describe('AppController', () => {
       'english',
     );
   });
-  
+
+  it('should send a welcome message in the selected language when button_response is truthy and button_response.body is "hindi"', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 11,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'Ask a new question',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const chatbotService = new ChatbotService(messageService, userService);
+
+    const body = {
+      from: '1234567890',
+      text: null,
+      button_response: { body: 'hindi' },
+      persistent_menu_response: null,
+    };
+
+    await chatbotService.processMessage(body);
+
+    expect(userService.findUserByMobileNumber).toHaveBeenCalledWith(
+      '1234567890',
+      process.env.BOT_ID,
+    );
+    expect(messageService.sendWelcomeMessage).toHaveBeenCalledWith(
+      body.from,
+      body.button_response.body,
+    );
+    expect(userService.setUserPreferredLanguage).toHaveBeenCalledWith(
+      body.from,
+      body.button_response.body,
+      process.env.BOT_ID,
+    );
+    expect(messageService.askQuestionButton).toHaveBeenCalledWith(
+      body.from,
+      body.button_response.body,
+    );
+    expect(userService.updateUserContext).toHaveBeenCalledWith(
+      body.from,
+      process.env.BOT_ID,
+      english.context[0],
+    );
+  });
+
+  it('should call languageButtons method when user context is set to address ', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 11,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'address',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const chatbotService = new ChatbotService(messageService, userService);
+
+    const body = {
+      from: '1234567890',
+      text: {body: 'This is my address'},
+      button_response: null,
+      persistent_menu_response: null,
+    };
+
+    await chatbotService.processMessage(body);
+
+    expect(messageService.languageButtons).toHaveBeenCalledWith(body.from, 'english');
+    expect(userService.updateUserAddress).toHaveBeenCalledTimes(1);
+    expect(userService.updateUserContext).toHaveBeenCalledTimes(1);
+  });
 });
