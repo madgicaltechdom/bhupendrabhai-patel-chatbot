@@ -3,8 +3,6 @@ import IntentClassifier from '../intent/intent.classifier';
 import { MessageService } from '../message/message.service';
 import { UserService } from '../model/user.service';
 import { localisedStrings as english } from '../i18n/en/localised-strings';
-import { localisedStrings as hindi } from '../i18n/hn/localised-strings';
-import { localisedStrings as gujarati } from '../i18n/gu/localised-strings';
 import { LocalizationService } from '../localization/localization.service';
 
 import * as dotenv from 'dotenv';
@@ -12,17 +10,11 @@ dotenv.config();
 
 @Injectable()
 export class ChatbotService {
-  private readonly intentClassifier: IntentClassifier;
   private readonly message: MessageService;
   private readonly userService: UserService;
-  private readonly apiUrl = process.env.API_URL;
   private readonly botId = process.env.BOT_ID;
-  private readonly apiKey = process.env.API_KEY;
 
-  constructor(
-    message: MessageService,
-    userService: UserService,
-  ) {
+  constructor(message: MessageService, userService: UserService) {
     this.message = message;
     this.userService = userService;
   }
@@ -104,7 +96,7 @@ export class ChatbotService {
       userData.user_context === english.context[0] &&
       !button_response
     ) {
-      console.log("Daily limit is: ",userData.question_limit);
+      console.log('Daily limit is: ', userData.question_limit);
       if (userData.question_limit <= 10) {
         if (text.body.toLowerCase() === english.demo_question.toLowerCase()) {
           await this.message.sendMessageForCorrectAns(from, userData.language);
@@ -123,9 +115,8 @@ export class ChatbotService {
           userData.question_limit,
           userData.lastQuestionDate,
         );
-      } 
-      else {
-        console.log("Daily limit exhausted: ")
+      } else {
+        console.log('Daily limit exhausted: ');
         await this.message.sendMessageForDailyLimit(from, userData.language);
       }
     } else if (
@@ -177,4 +168,3 @@ export class ChatbotService {
   }
 }
 export default ChatbotService;
-
