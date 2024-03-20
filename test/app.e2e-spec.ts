@@ -9,6 +9,7 @@ import { dynamoDBClient } from '../src/config/dynamoDBClient';
 import { SwiftchatMessageService } from '../src/swiftchat/swiftchat.service';
 import axios from 'axios';
 import { localisedStrings as english } from '../src/i18n/en/localised-strings';
+import { LocalizationService } from '../src/localization/localization.service';
 
 dotenv.config();
 
@@ -377,4 +378,357 @@ describe('AppController', () => {
       'english',
     );
   });
+  it('should call languageButtons method when user context is set to address ', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 11,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'address',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const chatbotService = new ChatbotService(messageService, userService);
+
+    const body = {
+      from: '1234567890',
+      text: {body: 'This is my address'},
+      button_response: null,
+      persistent_menu_response: null,
+    };
+
+    await chatbotService.processMessage(body);
+
+    expect(messageService.languageButtons).toHaveBeenCalledWith(body.from, 'english');
+    expect(userService.updateUserAddress).toHaveBeenCalledTimes(1);
+    expect(userService.updateUserContext).toHaveBeenCalledTimes(1);
+  });
+  it('should send a welcome message in the specified language"', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 0,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'welcome message',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const swiftchatService = new SwiftchatMessageService();
+
+    const body = {
+      from: '1234567890',
+      language:'english',
+      text: { body: 'hi' },
+      button_response: null,
+      persistent_menu_response: null,
+    };
+
+    await messageService.sendWelcomeMessage(body.from,body.language)
+
+    expect(messageService.sendWelcomeMessage).toHaveBeenCalledWith(
+      body.from,
+      'english',
+    );
+  });
+  it('should send a message for incorrect answer with the correct language"', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 0,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'incorrect answer',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const swiftchatService = new SwiftchatMessageService();
+    const from = "1234567890";
+    const language = "english";
+
+    const body = {
+      from: '1234567890',
+      text: { body: 'Ask a new question' },
+      button_response: null,
+      persistent_menu_response: null,
+    };
+
+    await messageService.sendMessageForIncorrectAns(from, language);
+
+    expect(messageService.sendMessageForIncorrectAns).toHaveBeenCalledWith(
+      '1234567890',
+      'english',
+    );
+  });
+  it('should send a message with the daily limit information in the correct language"', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 0,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'Ask me question',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const swiftchatService = new SwiftchatMessageService();
+    const from = "1234567890";
+    const language = "english";
+
+    const body = {
+      from: '1234567890',
+      text: { body: 'Ask a new question' },
+      button_response: null,
+      persistent_menu_response: null,
+    };
+    
+await messageService.sendMessageForDailyLimit(from, language);
+
+    expect(messageService.sendMessageForDailyLimit).toHaveBeenCalledWith(
+      '1234567890',
+      'english',
+    );
+  });
+  it('should send a message with the correct language selected"', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 0,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'Ask me question',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const swiftchatService = new SwiftchatMessageService();
+    const from = "1234567890";
+    const language = "english";
+
+    const body = {
+      from: '1234567890',
+      text: null,
+      button_response: {body: 'hindi'},
+      persistent_menu_response: { body: 'Change Language'},
+    };
+    
+await messageService.sendLanguageChangedMessage(from, language);
+
+
+expect(messageService.sendLanguageChangedMessage).toHaveBeenCalledWith(
+  body.from,
+  'english',
+);
+  });
+  it('should send a message asking for users name in the specified language', async () => {
+    const userService = {
+      findUserByMobileNumber: jest.fn().mockResolvedValue({
+        language: 'english',
+        lastQuestionDate: '2024-13-19',
+        question_limit: 0,
+        id: '12',
+        mobileNumber: '1234567890',
+        Botid: '111',
+        button_response: null,
+        user_context: 'name',
+        address: null,
+        userName: null,
+      }),
+      updateUserQuestionLimit: jest.fn(),
+      updateUserContext: jest.fn(),
+      updateButtonResponse: jest.fn(),
+      setUserPreferredLanguage: jest.fn(),
+      updateUserName: jest.fn(),
+      updateUserAddress: jest.fn(),
+      createUser: jest.fn(),
+    };
+
+    const swiftchatService = new SwiftchatMessageService();
+    const from = "1234567890";
+    const language = "hindi";
+
+    const body = {
+      from: '1234567890',
+      text: null,
+      button_response: null,
+      persistent_menu_response: null,
+    };
+    
+await messageService.askUserName(from, language);
+
+      expect(messageService.askUserName).toBeDefined();
+      expect(messageService.askUserName).toHaveBeenCalledWith(
+      '1234567890',
+      'hindi',
+    );
+  });
+  // it('should create buttons with localized strings', async () => {
+  //   const userService = {
+  //     findUserByMobileNumber: jest.fn().mockResolvedValue({
+  //       language: 'english',
+  //       lastQuestionDate: '2024-13-19',
+  //       question_limit: 0,
+  //       id: '12',
+  //       mobileNumber: '1234567890',
+  //       Botid: '111',
+  //       button_response: null,
+  //       user_context: 'Ask a new question',
+  //       address: null,
+  //       userName: null,
+  //     }),
+  //     updateUserQuestionLimit: jest.fn(),
+  //     updateUserContext: jest.fn(),
+  //     updateButtonResponse: jest.fn(),
+  //     setUserPreferredLanguage: jest.fn(),
+  //     updateUserName: jest.fn(),
+  //     updateUserAddress: jest.fn(),
+  //     createUser: jest.fn(),
+  //   };
+  //   // Arrange
+  //   const from = '1234567890';
+  //   const language = 'english';
+
+  //   // Mock the localized strings
+  //   const localizedStrings = {
+  //     createButtonBody: 'Choose your district and discover its progress.',
+  //     district_buttons: [
+  //       { body: 'Ahmedabad', reply: 'Ahmedabad', type: 'solid' },
+  //       // Add more buttons as needed
+  //     ],
+  //   };
+
+  //   // Act
+  //   const response = await messageService.createButtons(from, language);
+
+  //   // Assert
+    
+  //   expect(messageService.createButtons).toHaveBeenCalledWith(
+  //     expect.any(String), // URL
+  //     expect.objectContaining({
+  //       button: {
+  //         body: {
+  //           text: {
+  //             body: localizedStrings.createButtonBody,
+  //           },
+  //         },
+  //         buttons: expect.arrayContaining(localizedStrings.district_buttons),
+  //       },
+  //     }),
+  //     expect.any(Object), // Headers
+  //   );
+  // });
+  it('should send a welcome message when valid \'from\' and \'language\' parameters are provided', async () => {
+    // Arrange
+    const swiftchatMessageService = new SwiftchatMessageService();
+    const from = "user@example.com";
+    const language = "english";
+
+    // Mock LocalizationService
+    const mockLocalisedStrings = {
+      welcomeMessage: "Welcome!",
+    };
+    LocalizationService.getLocalisedString = jest.fn().mockReturnValue(mockLocalisedStrings);
+
+    // Mock sendMessage method
+    swiftchatMessageService.sendMessage = jest.fn().mockResolvedValue({
+      status: 200,
+      data: {
+        to: from,
+        type: 'text',
+        text: {
+          body: "Welcome!"
+        }
+      }
+    });
+
+    // Act
+    const response = await swiftchatMessageService.sendWelcomeMessage(from, language);
+
+    // Assert
+    expect(response).toBeDefined();
+    expect(response.status).toBe(200);
+    expect(response.data).toEqual(expect.objectContaining({
+      to: from,
+      type: 'text',
+      text: {
+        body: "Welcome!"
+      }
+    }));
+    expect(LocalizationService.getLocalisedString).toHaveBeenCalledWith(language);
+
+  });
+      // Method uses the correct localised string based on the language parameter
+      it('should send a message with the correct language selected', async () => {
+        // Arrange
+        const swiftchatMessageService = new SwiftchatMessageService();
+        const from = "1234567890";
+        const language = "english";
+        const expectedResponse = { success: true };
+  
+        // Act
+        const response = await swiftchatMessageService.sendLanguageChangedMessage(from, language);
+  
+        // Assert
+        expect(response).toEqual(expectedResponse);
+      });
 });
