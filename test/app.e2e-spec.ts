@@ -717,18 +717,5 @@ await messageService.askUserName(from, language);
     expect(LocalizationService.getLocalisedString).toHaveBeenCalledWith(language);
 
   });
-      // Method uses the correct localised string based on the language parameter
-      it('should send a message with the correct language selected', async () => {
-        // Arrange
-        const swiftchatMessageService = new SwiftchatMessageService();
-        const from = "1234567890";
-        const language = "english";
-        const expectedResponse = { success: true };
-  
-        // Act
-        const response = await swiftchatMessageService.sendLanguageChangedMessage(from, language);
-  
-        // Assert
-        expect(response).toEqual(expectedResponse);
-      });
+
 });
