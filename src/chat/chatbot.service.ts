@@ -26,7 +26,6 @@ export class ChatbotService {
       from,
       this.botId,
     );
-    console.log(userData);
     const localisedStrings = LocalizationService.getLocalisedString(
       userData.language,
     );
@@ -98,16 +97,32 @@ export class ChatbotService {
     ) {
       console.log('Daily limit is: ', userData.question_limit);
       if (userData.question_limit <= 10) {
-        if (text.body.toLowerCase() === english.demo_question.toLowerCase()) {
-          await this.message.sendMessageForCorrectAns(from, userData.language);
-          await this.message.askQuestionButton(from, userData.language);
-        } else {
-          await this.message.sendMessageForIncorrectAns(
-            from,
-            userData.language,
-          );
-          await this.message.askQuestionButton(from, userData.language);
-        }
+        const chats = userData.chatHistory;
+        
+        await this.message.sendWaitMessage(from,userData.language);
+        console.log("currently the language is: ", userData);
+        const dataresponse = await this.message.sendweaviateMessage(
+          from,
+          body.text.body,
+          userData.language,
+          chats,
+          '',
+        );
+        await this.message.askQuestionButton(from, userData.language);
+
+    
+        // if (text.body.toLowerCase() === english.demo_question.toLowerCase()) {
+        //   await this.message.sendweaviateMessage(from,body.text.body,userData.language,'','');
+        //   await this.message.sendMessageForCorrectAns(from, userData.language);
+        //   await this.message.askQuestionButton(from, userData.language);
+        // } else {
+        //   await this.message.sendMessageForIncorrectAns(
+        //     from,
+        //     userData.language,
+        //   );
+        //   await this.message.askQuestionButton(from, userData.language);
+        // }
+
         userData.question_limit += 1;
         await this.userService.updateUserQuestionLimit(
           from,

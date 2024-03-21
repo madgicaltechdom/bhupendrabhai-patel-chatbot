@@ -15,6 +15,7 @@ export class SwiftchatMessageService extends MessageService {
   private apiKey = process.env.API_KEY;
   private apiUrl = process.env.API_URL;
   private baseUrl = `${this.apiUrl}/${this.botId}/messages`;
+  private serverlink = process.env.Ngrok_API
 
   private prepareRequestData(from: string, requestBody: string): any {
     return {
@@ -71,7 +72,6 @@ export class SwiftchatMessageService extends MessageService {
   }
 
   async sendMessageForDailyLimit(from: string, language: string) {
-    console.log("This function has been called: ")
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -144,11 +144,9 @@ export class SwiftchatMessageService extends MessageService {
         localisedStrings = gujarati;
         break;
       default:
-        // Default to English if language is not recognized
         localisedStrings = english;
         break;
     }
-    console.log(localisedStrings);
     const url = `${this.apiUrl}/${this.botId}/messages`;
     const messageData = {
       to: from,
@@ -239,7 +237,7 @@ export class SwiftchatMessageService extends MessageService {
     }
   }
 
-  async askQuestionButton(from: string,language:string): Promise<any> {
+  async askQuestionButton(from: string, language: string): Promise<any> {
     let localisedStrings;
     switch (language) {
       case 'english':
@@ -288,5 +286,73 @@ export class SwiftchatMessageService extends MessageService {
     } catch (error) {
       console.error('errors:', error);
     }
+  }
+
+  async sendweaviateMessage(from: string, question: string, language: string, chatHistory: any, answer: string) {
+    try {
+      let requestData;
+      let answerStrings;
+      const localisedStrings = LocalizationService.getLocalisedString(language);
+      if (answer === null || answer === undefined || answer === '') {
+        const payload = {
+          bot_name: "Bpbpt_test",
+          language: language,
+          question: question,
+          chatHistory: chatHistory,
+          enable_cache: true,
+          similarity_cutoff: 0.95
+        };
+        const link = `${this.serverlink}/bot/query`;
+        answerStrings = await axios.post(link, payload, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const Genai_answer = answerStrings?.data?.result?.[0]?.answer == null ? localisedStrings?.not_relevant_question_issue : answerStrings?.data?.result?.[0]?.answer
+        requestData = {
+          to: from,
+          type: 'text',
+          text: {
+            body: Genai_answer,
+          },
+          rating_type: "thumb"
+        };
+     
+
+      } else {
+        requestData = {
+          to: from,
+          type: 'text',
+          text: {
+            body: answer.toString(),
+          },
+          rating_type: "thumb"
+        };
+      }
+      const Genai_answer = answerStrings?.data?.result?.[0]?.answer == null ? localisedStrings.not_relevant_question_issue : answerStrings?.data?.result?.[0]?.answer
+      const responseAnswer = answer === null || answer === undefined || answer === ''? Genai_answer: answer.toString();
+      const response = await this.sendMessage(this.baseUrl,requestData,this.apiKey);     
+      console.log("responseAnswer",responseAnswer)
+
+      return responseAnswer;
+    } catch (error) {
+      console.log("Error making the request:", error);
+
+    }
+  }
+
+  async sendWaitMessage(from: string, language: string) {
+    const localisedStrings = LocalizationService.getLocalisedString(language);
+    const requestData = this.prepareRequestData(
+      from,
+      localisedStrings.waitMessage,
+    );
+
+    const response = await this.sendMessage(
+      this.baseUrl,
+      requestData,
+      this.apiKey,
+    );
+    return response;
   }
 }

@@ -220,9 +220,11 @@ export const localisedStrings = {
     'greeting'
   ],
   languages: ['english', 'hindi','gujarati'],
-  persistent_menu: ['Change Language'],
+  persistent_menu: ['Change language'],
   askQuestionBody: 'Ask questions to Chief Minister Bhupendrabhai to learn about the progress of your district.',
   askQuestionButtonReply: 'Ask a new question',
   languageBody: 'Choose Language',
-  createButtonBody: 'Choose your district and discover its progress.'
+  createButtonBody: 'Choose your district and discover its progress.',
+  not_relevant_question_issue: 'Sorry we do not have answer for this question. Please ask a different question 📚🙏',
+  waitMessage: 'Wait while we are preparing your answer 🙏'
 };
