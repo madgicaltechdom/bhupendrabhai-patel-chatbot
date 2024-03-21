@@ -782,7 +782,11 @@ await messageService.askUserName(from, language);
               },
             },
             buttons: [
-              // Add your localized buttons here
+              {
+                type: 'solid',
+                body: 'Ask me a question?',
+                reply: 'Ask me a question?',
+              },
             ],
           },
         };
