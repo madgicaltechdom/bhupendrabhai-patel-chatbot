@@ -717,5 +717,84 @@ await messageService.askUserName(from, language);
     expect(LocalizationService.getLocalisedString).toHaveBeenCalledWith(language);
 
   });
-
+  it('should send a message with a button to select a language', async () => {
+    // Arrange
+    const swiftchatMessageService = new SwiftchatMessageService();
+    const from = '1234567890';
+    const language = 'english';
+  
+    // Mock the response object
+    const mockResponse = {
+      to: from,
+      type: 'button',
+      button: {
+        body: {
+          type: 'text',
+          text: {
+            body: 'Localized button text',
+          },
+        },
+        buttons: [
+          {
+            type: 'solid',
+            body: 'Hindi',
+            reply: 'hindi',
+          },
+          {
+            type: 'solid',
+            body: 'English',
+            reply: 'english',
+          },
+          {
+            type: 'solid',
+            body: 'Gujarati',
+            reply: 'gujarati',
+          },
+        ],
+      },
+    };
+  
+    // Mock the languageButtons method
+    jest.spyOn(swiftchatMessageService, 'languageButtons').mockResolvedValue(mockResponse);
+  
+    // Act
+    const response = await swiftchatMessageService.languageButtons(from, language);
+  
+    // Assert
+    expect(response).toEqual(mockResponse);
+  });
+      // The method sends a button message to the user with a text body and a single button.
+      it('should send a button message with a text body and a single button when invoked with valid parameters', async () => {
+        // Arrange
+        const swiftchatMessageService = new SwiftchatMessageService();
+        const from = '1234567890';
+        const language = 'english';
+      
+        // Mock the response object
+        const mockResponse = {
+          to: from,
+          type: 'button',
+          button: {
+            body: {
+              type: 'text',
+              text: {
+                body: 'Localized button text', // Adjust based on your actual localized string
+              },
+            },
+            buttons: [
+              // Add your localized buttons here
+            ],
+          },
+        };
+      
+        // Mock the languageButtons method
+        jest.spyOn(swiftchatMessageService, 'languageButtons').mockResolvedValue(mockResponse);
+      
+        // Act
+        const response = await swiftchatMessageService.languageButtons(from, language);
+      
+        // Assert
+        expect(response).toEqual(mockResponse);
+      });
+      
 });

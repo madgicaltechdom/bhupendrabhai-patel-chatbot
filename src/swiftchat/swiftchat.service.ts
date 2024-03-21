@@ -176,8 +176,8 @@ export class SwiftchatMessageService extends MessageService {
       console.error('Some Internal errors:', error);
     }
   }
-
-  async languageButtons(from: string, language: string): Promise<void> {
+ 
+  async languageButtons(from: string, language: string): Promise<any> {
     let localisedStrings;
     switch (language) {
       case 'english':
