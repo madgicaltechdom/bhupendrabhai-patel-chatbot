@@ -6,7 +6,7 @@ import { localisedStrings as english } from '../i18n/en/localised-strings';
 import { localisedStrings as hindi } from '../i18n/hn/localised-strings';
 import { localisedStrings as gujarati } from '../i18n/gu/localised-strings';
 import axios from 'axios';
-
+import { UserService } from '../model/user.service';
 dotenv.config();
 
 @Injectable()
@@ -15,7 +15,8 @@ export class SwiftchatMessageService extends MessageService {
   private apiKey = process.env.API_KEY;
   private apiUrl = process.env.API_URL;
   private baseUrl = `${this.apiUrl}/${this.botId}/messages`;
-  private serverlink = process.env.Ngrok_API
+  private serverlink = process.env.Ngrok_API;
+  private readonly userService: UserService;
 
   private prepareRequestData(from: string, requestBody: string): any {
     return {
@@ -295,14 +296,16 @@ export class SwiftchatMessageService extends MessageService {
       const localisedStrings = LocalizationService.getLocalisedString(language);
       if (answer === null || answer === undefined || answer === '') {
         const payload = {
-          bot_name: "Bpbpt_test",
+          bot_name: "Bpbot",
           language: language,
           question: question,
           chatHistory: chatHistory,
           enable_cache: true,
-          similarity_cutoff: 0.95
+          similarity_cutoff: 0.9
         };
-        const link = `${this.serverlink}/bot/query`;
+
+        const link = `${this.serverlink}/bpbot/v1/bot/query`;
+        console.log(link);
         answerStrings = await axios.post(link, payload, {
           headers: {
             'Content-Type': 'application/json',
@@ -317,8 +320,8 @@ export class SwiftchatMessageService extends MessageService {
           },
           rating_type: "thumb"
         };
+        // await this.userService.addChatHistory(from,this.botId,question,Genai_answer);
      
-
       } else {
         requestData = {
           to: from,

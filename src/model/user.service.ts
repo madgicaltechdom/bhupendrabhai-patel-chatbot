@@ -313,4 +313,52 @@ export class UserService {
       return newUser;
     }
   }
+
+  async addChatHistory(
+    mobileNumber: string,
+    botID: string,
+    question: string,
+    answer: string,
+  ): Promise<any> {
+    try {
+      const existingUser = await this.findUserByMobileNumber(
+        mobileNumber,
+        botID,
+      );
+      if (existingUser) {
+        existingUser.chatHistory.push({ question, answer });
+        if (existingUser.chatHistory.length > 1) {
+          existingUser.chatHistory = existingUser.chatHistory.slice(-1);
+        }
+        const updateUser = {
+          TableName: USERS_TABLE,
+          Item: existingUser,
+        };
+        await dynamoDBClient().put(updateUser).promise();
+        return existingUser;
+      } else {
+        const newUser = {
+          TableName: USERS_TABLE,
+          Item: {
+            id: uuidv4(),
+            mobileNumber: mobileNumber,
+            language: 'english',
+            Botid: botID,
+            chatHistory: [],
+            button_response: null,
+            user_context: null,
+            address: null,
+            userName: null,
+            question_limit: 0,
+            lastQuestionDate: new Date().toISOString().split('T')[0],
+          },
+        };
+        await dynamoDBClient().put(newUser).promise();
+        return newUser;
+      }
+    } catch (error) {
+      console.error('Error in createUser:', error);
+      throw error;
+    }
+  }
 }
