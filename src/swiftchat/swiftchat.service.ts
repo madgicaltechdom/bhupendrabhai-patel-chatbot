@@ -16,7 +16,6 @@ export class SwiftchatMessageService extends MessageService {
   private apiUrl = process.env.API_URL;
   private baseUrl = `${this.apiUrl}/${this.botId}/messages`;
   private serverlink = process.env.Ngrok_API;
-  private readonly userService: UserService;
 
   private prepareRequestData(from: string, requestBody: string): any {
     return {
