@@ -108,6 +108,23 @@ export class ChatbotService {
           chats,
           '',
         );
+        const question =
+        (dataresponse && dataresponse[0] && dataresponse[0].question) || body.text.body;
+        console.log("Question: ",question);
+
+        const answer = (dataresponse);
+
+        console.log("Answer: ",answer);
+
+        if (dataresponse != null) {
+          await this.userService.createUser(
+            from,
+            userData.language,
+            this.botId,
+            question,
+            answer,
+          );}
+
         await this.message.askQuestionButton(from, userData.language);
 
   

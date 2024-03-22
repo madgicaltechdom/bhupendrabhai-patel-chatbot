@@ -334,7 +334,7 @@ export class SwiftchatMessageService extends MessageService {
       const Genai_answer = answerStrings?.data?.result?.[0]?.answer == null ? localisedStrings.not_relevant_question_issue : answerStrings?.data?.result?.[0]?.answer
       const responseAnswer = answer === null || answer === undefined || answer === ''? Genai_answer: answer.toString();
       const response = await this.sendMessage(this.baseUrl,requestData,this.apiKey);     
-      console.log("responseAnswer",responseAnswer)
+      console.log("responseAnswer: ",responseAnswer)
 
       return responseAnswer;
     } catch (error) {
