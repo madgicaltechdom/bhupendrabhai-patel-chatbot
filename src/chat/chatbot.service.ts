@@ -4,6 +4,7 @@ import { MessageService } from '../message/message.service';
 import { UserService } from '../model/user.service';
 import { localisedStrings as english } from '../i18n/en/localised-strings';
 import { LocalizationService } from '../localization/localization.service';
+import { AnalyticsService } from 'src/analytics.service';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -13,6 +14,7 @@ export class ChatbotService {
   private readonly message: MessageService;
   private readonly userService: UserService;
   private readonly botId = process.env.BOT_ID;
+  private readonly analyticsService: AnalyticsService;
 
   constructor(message: MessageService, userService: UserService) {
     this.message = message;
@@ -147,6 +149,11 @@ export class ChatbotService {
           userData.question_limit,
           userData.lastQuestionDate,
         );
+        await this.analyticsService.trackEvent('question_asked', {
+          question: question,
+          language: userData.language,
+          
+        });
       } else {
         console.log('Daily limit exhausted: ');
         await this.message.sendMessageForDailyLimit(from, userData.language);
@@ -169,6 +176,9 @@ export class ChatbotService {
         this.botId,
         english.context[2],
       );
+      await this.analyticsService.trackEvent('user_language_selected', {
+        language: button_response.body,
+      });
     } else if (userData.user_context === english.context[2]) {
       await this.message.languageButtons(from, userData.language);
       await this.userService.updateUserAddress(
