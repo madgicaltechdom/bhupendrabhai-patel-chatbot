@@ -3,7 +3,7 @@ import axios from 'axios';
 
 @Injectable()
 export class AnalyticsService {
-  private readonly measurementId = 'YOUR_MEASUREMENT_ID'; // Replace with your ID
+  private readonly measurementId = 'G-E4QGYR7FCL'; // Replace with your ID
 
   async trackEvent(hitType: string, additionalParams?: Record<string, any>) {
     const data = {
