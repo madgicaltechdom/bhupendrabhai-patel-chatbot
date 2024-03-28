@@ -38,7 +38,7 @@ export class UserService {
           Item: {
             id: uuidv4(),
             mobileNumber: mobileNumber,
-            language: 'english',
+            language: 'English',
             Botid: botID,
             chatHistory: [{ question, answer }],
             button_response: null,
@@ -76,7 +76,7 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: null,
@@ -109,7 +109,7 @@ export class UserService {
           ...user,
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: null,
@@ -154,7 +154,7 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: null,
@@ -191,7 +191,7 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: null,
@@ -228,7 +228,7 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: null,
@@ -264,7 +264,7 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: null,
@@ -298,7 +298,7 @@ export class UserService {
         Item: {
           id: uuidv4(),
           mobileNumber,
-          language: 'english',
+          language: 'English',
           Botid: botID,
           chatHistory: [],
           button_response: button_response,
@@ -342,7 +342,7 @@ export class UserService {
           Item: {
             id: uuidv4(),
             mobileNumber: mobileNumber,
-            language: 'english',
+            language: 'English',
             Botid: botID,
             chatHistory: [],
             button_response: null,

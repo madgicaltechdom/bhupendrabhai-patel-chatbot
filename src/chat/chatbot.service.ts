@@ -179,9 +179,9 @@ export class ChatbotService {
       await this.userService.updateUserContext(from, this.botId, null);
     } else if (
       button_response &&
-      (button_response.body === 'hindi' ||
-        button_response.body === 'english' ||
-        button_response.body === 'gujarati')
+      (button_response.body === 'Hindi' ||
+        button_response.body === 'English' ||
+        button_response.body === 'Gujarati')
     ) {
       await this.message.sendWelcomeMessage(from, button_response.body);
       await this.userService.setUserPreferredLanguage(

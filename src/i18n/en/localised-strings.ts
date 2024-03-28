@@ -219,7 +219,7 @@ export const localisedStrings = {
     'address',
     'greeting'
   ],
-  languages: ['english', 'hindi','gujarati'],
+  languages: ['English', 'Hindi','Gujarati'],
   persistent_menu: ['Change language'],
   askQuestionBody: 'Ask questions to Chief Minister Bhupendrabhai to learn about the progress of your district.',
   askQuestionButtonReply: 'Ask a new question',

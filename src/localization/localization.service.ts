@@ -7,13 +7,13 @@ import { localisedStrings as gujarati } from '../i18n/gu/localised-strings';
 export class LocalizationService {
   static getLocalisedString = (language): any => {
     console.log(language);
-    if (language == 'hindi') {
+    if (language == 'Hindi') {
       return hindi;
     } 
-    else if (language === 'english'){
+    else if (language === 'English'){
       return english;
     }
-    else if (language === 'gujarati'){
+    else if (language === 'Gujarati'){
       return gujarati;
     }
   };

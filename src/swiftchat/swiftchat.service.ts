@@ -134,13 +134,13 @@ export class SwiftchatMessageService extends MessageService {
   async createButtons(from: string, language: string): Promise<void> {
     let localisedStrings;
     switch (language) {
-      case 'english':
+      case 'English':
         localisedStrings = english;
         break;
-      case 'hindi':
+      case 'Hindi':
         localisedStrings = hindi;
         break;
-      case 'gujarati':
+      case 'Gujarati':
         localisedStrings = gujarati;
         break;
       default:
@@ -178,13 +178,13 @@ export class SwiftchatMessageService extends MessageService {
   async languageButtons(from: string, language: string): Promise<void> {
     let localisedStrings;
     switch (language) {
-      case 'english':
+      case 'English':
         localisedStrings = english;
         break;
-      case 'hindi':
+      case 'Hindi':
         localisedStrings = hindi;
         break;
-      case 'gujarati':
+      case 'Gujarati':
         localisedStrings = gujarati;
         break;
       default:
@@ -208,17 +208,17 @@ export class SwiftchatMessageService extends MessageService {
           {
             type: 'solid',
             body: 'Hindi',
-            reply: 'hindi',
+            reply: 'Hindi',
           },
           {
             type: 'solid',
             body: 'English',
-            reply: 'english',
+            reply: 'English',
           },
           {
             type: 'solid',
             body: 'Gujarati',
-            reply: 'gujarati',
+            reply: 'Gujarati',
           },
         ],
         allow_custom_response: false,
@@ -240,13 +240,13 @@ export class SwiftchatMessageService extends MessageService {
   async askQuestionButton(from: string, language: string): Promise<any> {
     let localisedStrings;
     switch (language) {
-      case 'english':
+      case 'English':
         localisedStrings = english;
         break;
-      case 'hindi':
+      case 'Hindi':
         localisedStrings = hindi;
         break;
-      case 'gujarati':
+      case 'Gujarati':
         localisedStrings = gujarati;
         break;
       default:
