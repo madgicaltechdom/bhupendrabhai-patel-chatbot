@@ -53,7 +53,7 @@ export class UserService {
         return newUser;
       }
     } catch (error) {
-      console.error('Error in createUser:', error);
+      console.log('Error in createUser:', error);
       throw error;
     }
   }
@@ -128,7 +128,7 @@ export class UserService {
       }
       return user;
     } catch (error) {
-      console.error('Error querying user from DynamoDB:', error);
+      console.log('Error querying user from DynamoDB:', error);
       return null;
     }
   }
@@ -357,7 +357,7 @@ export class UserService {
         return newUser;
       }
     } catch (error) {
-      console.error('Error in createUser:', error);
+      console.log('Error in createUser:', error);
       throw error;
     }
   }

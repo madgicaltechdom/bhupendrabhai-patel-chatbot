@@ -27,6 +27,7 @@ export class SwiftchatMessageService extends MessageService {
     };
   }
   async sendWelcomeMessage(from: string, language: string) {
+    try {
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -39,9 +40,12 @@ export class SwiftchatMessageService extends MessageService {
       this.apiKey,
     );
     return response;
-  }
+  }catch (error){
+    console.log(error)
+  }}
 
   async sendMessageForCorrectAns(from: string, language: string) {
+    try {
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -54,9 +58,13 @@ export class SwiftchatMessageService extends MessageService {
       this.apiKey,
     );
     return response;
-  }
+  }catch (error) {
+    console.log(error);
+
+  }}
 
   async sendMessageForIncorrectAns(from: string, language: string) {
+    try {
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -68,10 +76,15 @@ export class SwiftchatMessageService extends MessageService {
       requestData,
       this.apiKey,
     );
-    return response;
+    return response;}
+    catch (error) {
+      console.log(error);
+
+    }
   }
 
   async sendMessageForDailyLimit(from: string, language: string) {
+    try {
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -84,9 +97,13 @@ export class SwiftchatMessageService extends MessageService {
       this.apiKey,
     );
     return response;
-  }
+  }catch (error) {
+    console.log(error);
+    
+  }}
 
   async sendLanguageChangedMessage(from: string, language: string) {
+    try {
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -98,11 +115,17 @@ export class SwiftchatMessageService extends MessageService {
       requestData,
       this.apiKey,
     );
-    return response;
+    return response;}
+    catch (error) {
+      console.log(error);
+      
+    }
   }
 
   async askUserName(from: string, language: string) {
-    const localisedStrings = LocalizationService.getLocalisedString(language);
+
+    try{
+      const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
       localisedStrings.ask_user_name,
@@ -114,9 +137,16 @@ export class SwiftchatMessageService extends MessageService {
       this.apiKey,
     );
     return response;
+    }
+    catch(error){
+      console.log(error);
+     
+    }
+    
   }
 
   async askUserAdress(from: string, language: string) {
+    try{
     const localisedStrings = LocalizationService.getLocalisedString(language);
     const requestData = this.prepareRequestData(
       from,
@@ -129,7 +159,10 @@ export class SwiftchatMessageService extends MessageService {
       this.apiKey,
     );
     return response;
-  }
+      }
+    catch(error){
+      console.log(error);
+    }  }
 
   async createButtons(from: string, language: string): Promise<void> {
     let localisedStrings;

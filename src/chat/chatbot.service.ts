@@ -21,7 +21,8 @@ export class ChatbotService {
 
   public async processMessage(body: any): Promise<any> {
     const { from, text, button_response, persistent_menu_response } = body;
-
+try {
+console.log("body: " , body)
     const userData = await this.userService.findUserByMobileNumber(
       from,
       this.botId,
@@ -197,6 +198,12 @@ export class ChatbotService {
       );
     }
     return 'ok';
+
+  }
+  catch (error) {
+    console.log(error);
+    return 'ok';
+  }
   }
 }
 export default ChatbotService;
