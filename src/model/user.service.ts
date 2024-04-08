@@ -113,6 +113,7 @@ export class UserService {
           Botid: botID,
           chatHistory: [],
           button_response: null,
+          user_context: null,
           address: null,
           userName: null,
           question_limit: 0,

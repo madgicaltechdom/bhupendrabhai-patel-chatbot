@@ -9,6 +9,7 @@ import axios from 'axios';
 import { UserService } from '../model/user.service';
 dotenv.config();
 
+
 @Injectable()
 export class SwiftchatMessageService extends MessageService {
   private botId = process.env.BOT_ID;
@@ -337,7 +338,6 @@ export class SwiftchatMessageService extends MessageService {
         };
 
         const link = `${this.serverlink}/bpbot/v1/bot/query`;
-        console.log(link);
         answerStrings = await axios.post(link, payload, {
           headers: {
             'Content-Type': 'application/json',
@@ -367,7 +367,6 @@ export class SwiftchatMessageService extends MessageService {
       const Genai_answer = answerStrings?.data?.result?.[0]?.answer == null ? localisedStrings.not_relevant_question_issue : answerStrings?.data?.result?.[0]?.answer
       const responseAnswer = answer === null || answer === undefined || answer === ''? Genai_answer: answer.toString();
       const response = await this.sendMessage(this.baseUrl,requestData,this.apiKey);     
-      console.log("responseAnswer: ",responseAnswer)
 
       return responseAnswer;
     } catch (error) {
@@ -381,6 +380,22 @@ export class SwiftchatMessageService extends MessageService {
     const requestData = this.prepareRequestData(
       from,
       localisedStrings.waitMessage,
+    );
+
+    const response = await this.sendMessage(
+      this.baseUrl,
+      requestData,
+      this.apiKey,
+    );
+    return response;
+  };
+
+
+  async sendSureMessage(from: string, language: string) {
+    const localisedStrings = LocalizationService.getLocalisedString(language);
+    const requestData = this.prepareRequestData(
+      from,
+      localisedStrings.sureMessage,
     );
 
     const response = await this.sendMessage(

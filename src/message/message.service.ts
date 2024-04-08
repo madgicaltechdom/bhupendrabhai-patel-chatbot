@@ -38,4 +38,5 @@ export abstract class MessageService {
   abstract askQuestionButton(from: string,language:string);
   abstract sendweaviateMessage(  from: string,question: string,language: string,chatHistory: any,answer: string,);
   abstract sendWaitMessage(from: string, language: string);
+  abstract sendSureMessage(from: string, language: string);
 }

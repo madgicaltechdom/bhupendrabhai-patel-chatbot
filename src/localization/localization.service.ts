@@ -6,7 +6,6 @@ import { localisedStrings as gujarati } from '../i18n/gu/localised-strings';
 @Injectable()
 export class LocalizationService {
   static getLocalisedString = (language): any => {
-    console.log(language);
     if (language == 'Hindi') {
       return hindi;
     } 

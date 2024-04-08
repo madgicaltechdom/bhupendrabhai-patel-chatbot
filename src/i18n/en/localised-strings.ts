@@ -226,5 +226,6 @@ export const localisedStrings = {
   languageBody: 'Choose Language',
   createButtonBody: 'Choose your district and discover its progress.',
   not_relevant_question_issue: 'Sorry we do not have answer for this question. Please ask a different question 📚🙏',
-  waitMessage: 'Wait while we are preparing your answer 🙏'
+  waitMessage: 'Wait while we are preparing your answer 🙏',
+  sureMessage: 'Sure! type your question in the text bar'
 };

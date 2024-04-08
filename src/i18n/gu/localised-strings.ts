@@ -218,5 +218,7 @@ export const localisedStrings = {
   askQuestionBody: 'તમારા જિલ્લાની પ્રગતિ વિશે જાણવા માટે મુખ્યમંત્રી ભુપેંદ્રભાઇને પ્રશ્નો કરો.',
   askQuestionButtonReply: 'નવો પ્રશ્ન પૂછો',
   languageBody: 'ભાષા પસંદ કરો',
-  createButtonBody: 'તમારો જિલ્લો પસંદ કરો અને તેની પ્રગતિ જાણો।'
+  createButtonBody: 'તમારો જિલ્લો પસંદ કરો અને તેની પ્રગતિ જાણો।',
+  sureMessage: "ખરેખર! તમારો પ્રશ્ન ટેક્સ્ટ બારમાં લખો!"
+
 };
