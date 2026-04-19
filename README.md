@@ -1,3 +1,11 @@
+**Hook:** Custom chatbot for specific use case.
+
+**Body:** Chatbot for Bhupendrabhai Patel.
+
+**Closer:** Custom AI assistant.
+
+---
+
 #  Chatbot NestJS Boilerplate
 
 In this comprehensive guide, we introduce you to our Chatbot Starter Kit, a resource designed to empower developers in building robust chatbot applications. Whether you are just starting your journey in chatbot development or are an experienced developer seeking an efficient solution, this document is your go-to resource for mastering the use of our starter kit.
